@@ -30,17 +30,17 @@ http://localhost:3000/
 
 ## APIs
 
-###```GET /:code```
+### ```GET /:code```
 Redirect to the original website. 
 Example: ```http://localhost:5000/Sp7Rn6S7X```
 
-###```GET /api/all```
+### ```GET /api/all```
 Return all exist shortened URLs.
 ```
 [{"code":"w-STcpFdq","longUrl":"https://getbootstrap.com/","shortenUrl":"http://localhost:5000/w-STcpFdq","date":1618619668575},{"code":"EtOVluaa5","longUrl":"https://codebeautify.org/jsonviewer","shortenUrl":"http://localhost:5000/EtOVluaa5","date":1618619734963}]
 ```
 
-###```POST /api/createUrl```
+### ```POST /api/createUrl```
 Create a new shortened URL. 
 
 Payload: 
