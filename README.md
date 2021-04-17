@@ -24,8 +24,8 @@ http://localhost:3000/
 4. User can enter any text to input field. 
 5. If it is an invalid URL, an error message will show up. 
 6. If it is a valid format
-   6.1 If this URL is already exist in our data, the row of that URL from the table will be highlighted.
-   6.2 If this URL is NOT exist, will make an api request ```POST /api/createUrl```, and get a new shortened URL as response.
+   >6.1 If this URL is already exist in our data, the row of that URL from the table will be highlighted.
+   >6.2 If this URL is NOT exist, will make an api request ```POST /api/createUrl```, and get a new shortened URL as response.
 7. In table area, user can see all the URLs with its original URL and shortened URL. If user click the shortened URL, a new browser tab will be opened and navigate to the original website. User can also copy the shortened URL and paste into a new tab, this way will also navigate to the original website.
 
 ## APIs
