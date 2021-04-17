@@ -13,6 +13,9 @@ npm install
 # Run both UI and server in the root of the project
 npm run dev
 
+# Run some basic tests
+npm test
+
 # Once both servers are running, open your browser and go to this url:
 http://localhost:3000/
 ```

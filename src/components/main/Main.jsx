@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import validUrl from "valid-url";
 
-export const UrlForm = () => {
+export const Main = ({update}) => {
   const [url, setUrl] = useState("");
 
   const [error, setError] = useState("");
 
   const [urls, setUrls] = useState([]);
 
-  const onchange = (e) => {
+  const onchange = async (e) => {
     e.preventDefault();
+    await update();
     setError("");
     setUrl(e.target.value.trim());
   };
@@ -55,32 +56,43 @@ export const UrlForm = () => {
     }
   };
 
-  const loadUrls = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/all");
-      data.sort((a, b) => {
-        return b.date - a.date;
-      })
-      setUrls(data);
-    } catch (error) {
-      setError(error);
-    }
-  };
+  
 
   useEffect(() => {
+    let isCancelled = false;
+    const loadUrls = async () => {
+      try {
+        if (!isCancelled) {
+          const { data } = await axios.get("http://localhost:5000/api/all");
+          data.sort((a, b) => {
+            return b.date - a.date;
+          })
+          setUrls(data);
+        }
+      } catch (error) {
+        setError(error);
+      }
+    };
     loadUrls();
+
+    return () => {
+      isCancelled = true;
+      setUrls([]);
+      setError('');
+    };
   }, []);
 
   return (
     <div className="container mt-5">
       <h1>URL Shortener</h1>
       <form onSubmit={(e) => onsubmit(e)}>
-        <label>Enter URL Here:</label>
+        <label data-testid="urlForm">Enter URL Here:</label>
         <input
           value={url}
           type="text"
           onChange={(e) => onchange(e)}
           className="ml-2"
+          data-testid="urlInput"
         />
         <button
           type="submit"
@@ -94,7 +106,7 @@ export const UrlForm = () => {
       {error && <span className="text-danger">{error}</span>}
 
       {urls.length > 0 && (
-        <table className="table table-bordered mt-3">
+        <table className="table table-bordered mt-3" data-testid="urlTable">
           <thead>
             <tr>
               <th>#</th>
