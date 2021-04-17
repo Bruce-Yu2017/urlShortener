@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# URL Shortener App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Quick Start
 
-## Available Scripts
+```bash
+# Install UI dependencies in the root of the project
+npm install
 
-In the project directory, you can run:
+# Install Server dependencies
+cd server
+npm install
 
-### `npm start`
+# Run both UI and server in the root of the project
+npm run dev
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Once both servers are running, open your browser and go to this url:
+http://localhost:3000/
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Project Description
+1. This project includes two parts: UI part is created by react, and server part is created by nodejs(express).
+2. There is no database running on this app. Data is saved in ```data.json``` in ```/server/data```. Read and write data into ```data.json``` through ```fs``` package from nodejs.
+3. There are two main parts in UI, a URL input form and a table to display all created shortened URLs.
+4. User can enter any text to input field. 
+5. If it is an invalid URL, an error message will show up. 
+6. If it is a valid format
+   6.1 If this URL is already exist in our data, the row of that URL from the table will be highlighted.
+   6.2 If this URL is NOT exist, will make an api request ```POST /api/createUrl```, and get a new shortened URL as response.
+7. In table area, user can see all the URLs with its original URL and shortened URL. If user click the shortened URL, a new browser tab will be opened and navigate to the original website. User can also copy the shortened URL and paste into a new tab, this way will also navigate to the original website.
 
-### `npm test`
+## APIs
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###```GET /:code```
+Redirect to the original website. 
+Example: ```http://localhost:5000/Sp7Rn6S7X```
 
-### `npm run build`
+###```GET /api/all```
+Return all exist shortened URLs.
+```
+[{"code":"w-STcpFdq","longUrl":"https://getbootstrap.com/","shortenUrl":"http://localhost:5000/w-STcpFdq","date":1618619668575},{"code":"EtOVluaa5","longUrl":"https://codebeautify.org/jsonviewer","shortenUrl":"http://localhost:5000/EtOVluaa5","date":1618619734963}]
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###```POST /api/createUrl```
+Create a new shortened URL. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Payload: 
+```
+{"longUrl":"https://codebeautify.org/jsonviewer"}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Response: 
+```
+{"code":"SA-Ao1Ykd","longUrl":"https://translate.google.com/?hl=en&tab=TT","shortenUrl":"http://localhost:5000/SA-Ao1Ykd","date":1618619879896}
+```
