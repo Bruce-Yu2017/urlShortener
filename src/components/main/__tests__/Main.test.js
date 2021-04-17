@@ -14,8 +14,8 @@ describe('<Main />', () => {
 
   test('should able to add text', async () => {
     const promise = Promise.resolve()
-    const handleUpdateUsername = jest.fn(() => promise);
-    const {getByTestId} = render(<Main update={handleUpdateUsername} />);
+    const handlePromise = jest.fn(() => promise);
+    const {getByTestId} = render(<Main handlePromise={handlePromise} />);
     const input = getByTestId('urlInput');
     expect(input.value).toBe('');
     fireEvent.change(input, {
@@ -29,8 +29,8 @@ describe('<Main />', () => {
 
   test('should detect invalid url format', async () => {
     const promise = Promise.resolve()
-    const handleUpdateUsername = jest.fn(() => promise);
-    const {getByTestId} = render(<Main update={handleUpdateUsername} />);
+    const handlePromise = jest.fn(() => promise);
+    const {getByTestId} = render(<Main handlePromise={handlePromise} />);
     const input = getByTestId('urlInput');
     fireEvent.change(input, {
       target: {

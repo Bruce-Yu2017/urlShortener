@@ -2,20 +2,29 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import validUrl from "valid-url";
 
-export const Main = ({update}) => {
+export const Main = ({handlePromise}) => {
+  //Handle url input field state
   const [url, setUrl] = useState("");
 
+  //Handle error state, if it is not empty, the error bar will show
   const [error, setError] = useState("");
 
+  //Handle urls list state, list data is from server response 
   const [urls, setUrls] = useState([]);
 
+  //Handle input onchange event
   const onchange = async (e) => {
     e.preventDefault();
-    await update();
+
+    //handlePromise callback is only used in testing to avoid act() warning
+    if(handlePromise) {
+      await handlePromise();
+    }
     setError("");
     setUrl(e.target.value.trim());
   };
 
+  //Trigger api call to create a new shortened url
   const createUrl = async (payload) => {
     try {
       const { data } = await axios.post(
@@ -28,6 +37,7 @@ export const Main = ({update}) => {
     }
   };
 
+  //If an exist url is entered, will highlight the row in table
   const highLightRow = (row) => {
     const id = row.code;
     document.getElementById(id).style.backgroundColor='#e8d7d7';
@@ -38,6 +48,7 @@ export const Main = ({update}) => {
     }, 2000);
   }
 
+  //Handle form submit event
   const onsubmit = (e) => {
     e.preventDefault();
     const isValidUrl = validUrl.isUri(url);
@@ -56,8 +67,7 @@ export const Main = ({update}) => {
     }
   };
 
-  
-
+  //When project load, load all exist urls from server
   useEffect(() => {
     let isCancelled = false;
     const loadUrls = async () => {
@@ -79,6 +89,7 @@ export const Main = ({update}) => {
       isCancelled = true;
       setUrls([]);
       setError('');
+      setUrl('');
     };
   }, []);
 
